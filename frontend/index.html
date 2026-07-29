@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelPlorer</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<div id="app-container">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h1>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                ExcelPlorer
+            </h1>
+        </div>
+        
+        <nav class="sidebar-nav" id="nav-tabs">
+            <div class="nav-item active" data-target="upload">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                1. Upload Template
+                <div class="nav-status" id="status-upload"></div>
+            </div>
+            
+            <div class="nav-item" data-target="analysis">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                2. Analysis
+                <div class="nav-status" id="status-analysis"></div>
+            </div>
+            
+            <div class="nav-item" data-target="prompt">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                3. AI Prompt
+                <div class="nav-status" id="status-prompt"></div>
+            </div>
+            
+            <div class="nav-item" data-target="json-input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                4. JSON Input
+                <div class="nav-status" id="status-json-input"></div>
+            </div>
+            
+            <div class="nav-item" data-target="validator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                5. Validation Issues
+                <div class="nav-status" id="status-validator"></div>
+            </div>
+            
+            <div class="nav-item" data-target="preview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                6. Data Preview
+                <div class="nav-status" id="status-preview"></div>
+            </div>
+            
+            <div class="nav-item" data-target="export">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                7. Export Excel
+                <div class="nav-status" id="status-export"></div>
+            </div>
+            
+            <div class="nav-item" data-target="report">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                8. Validation Report
+                <div class="nav-status" id="status-report"></div>
+            </div>
+        </nav>
+        
+        <div class="sidebar-header" style="border-top: 1px solid var(--border-color); border-bottom: none; display: none;">
+            <h2 style="font-size: 1rem; color: var(--text-secondary);">Session History</h2>
+        </div>
+        
+        <div id="history-list" style="display: none;">
+            <!-- History items injected here -->
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="main-content">
+        
+        <!-- 1. Upload Tab -->
+        <section id="tab-upload" class="tab-pane active">
+            <div class="tab-header">
+                <h2>Upload Excel Template</h2>
+                <p>Upload a blank marketplace template to begin the AI mapping process.</p>
+            </div>
+            
+            <div class="glass-panel" style="padding: 2rem;">
+                <div id="upload-dropzone" class="dropzone">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <h3>Drag & Drop your .xlsx or .xls file here</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">or click to browse</p>
+                    <input type="file" id="upload-input" accept=".xlsx,.xls" style="display: none;">
+                </div>
+                
+                <div id="upload-status" style="margin-top: 1.5rem; display: none;">
+                    <p id="upload-filename"></p>
+                    <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.2); border-radius: 4px; margin-top: 0.5rem; overflow: hidden;">
+                        <div id="upload-progress-bar" style="width: 0%; height: 100%; background: var(--accent-primary); transition: width 0.3s ease;"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Analysis Tab -->
+        <section id="tab-analysis" class="tab-pane">
+            <div class="tab-header">
+                <h2>Template Analysis</h2>
+                <p>Extracted schema, validations, and column definitions.</p>
+            </div>
+            <div id="analysis-content">
+                <!-- Populated by analysis.js -->
+            </div>
+        </section>
+
+        <!-- 3. Prompt Tab -->
+        <section id="tab-prompt" class="tab-pane">
+            <div class="tab-header">
+                <h2>AI Prompt Generator</h2>
+                <p>Copy these prompts to ChatGPT or Claude to generate the listing data.</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Prompt 1: Rules -->
+                <div class="glass-panel" style="padding: 1.5rem;">
+                    <h3 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--accent-primary);">Prompt 1: Template Rules</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Paste this first to give the AI the specific rules and instructions extracted from your template.</p>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <div id="rules-prompt-stats" style="color: var(--text-secondary); font-size: 0.875rem;"></div>
+                        <button id="btn-copy-rules-prompt" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Copy Prompt 1
+                        </button>
+                    </div>
+                    <textarea id="rules-prompt-textarea" class="form-control" readonly style="min-height: 250px; font-size: 0.875rem;"></textarea>
+                </div>
+
+                <!-- Prompt 2: Data Extraction -->
+                <div class="glass-panel" style="padding: 1.5rem;">
+                    <h3 style="margin-top: 0; margin-bottom: 0.5rem; color: var(--accent-primary);">Prompt 2: Data Extraction</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Paste this second to instruct the AI exactly what JSON shape to return based on your product data.</p>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <div id="prompt-stats" style="color: var(--text-secondary); font-size: 0.875rem;"></div>
+                        <button id="btn-copy-prompt" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Copy Prompt 2
+                        </button>
+                    </div>
+                    <textarea id="prompt-textarea" class="form-control" readonly style="min-height: 250px; font-size: 0.875rem;"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. JSON Input Tab -->
+        <section id="tab-json-input" class="tab-pane">
+            <div class="tab-header">
+                <h2>Input AI JSON</h2>
+                <p>Add products and paste the AI-generated JSON for each product.</p>
+            </div>
+            
+            <div class="split-pane-container" style="display: flex; gap: 1.5rem; height: calc(100vh - 250px); min-height: 500px;">
+                <!-- Product List Sidebar -->
+                <div class="glass-panel" style="flex: 0 0 280px; display: flex; flex-direction: column; overflow: hidden; padding: 0;">
+                    <div style="padding: 1rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 1rem;">Products</h3>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button id="btn-load-product" class="btn" style="padding: 0.4rem 0.75rem; font-size: 0.875rem; background: rgba(255,255,255,0.1);">Load</button>
+                            <button id="btn-add-product" class="btn btn-primary" style="padding: 0.4rem 0.75rem; font-size: 0.875rem;">+ Add</button>
+                        </div>
+                    </div>
+                    <div id="product-list" style="flex: 1; overflow-y: auto; padding: 0.5rem; display: flex; flex-direction: column; gap: 0.25rem;">
+                        <!-- Product items injected here by JS -->
+                    </div>
+                </div>
+
+                <!-- JSON Editor Panel -->
+                <div class="glass-panel" style="flex: 1; display: flex; flex-direction: column; padding: 1.5rem;">
+                    <div id="editor-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 id="current-product-title" style="margin: 0; font-size: 1.1rem; color: var(--text-primary);">No product selected</h3>
+                        <div id="current-product-status" style="font-size: 0.875rem; padding: 0.25rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.05); color: var(--text-secondary);">Draft</div>
+                    </div>
+                    
+                    <textarea id="json-textarea" class="form-control" placeholder="Paste product JSON here...\n{\n  'Field 1': 'Value 1'\n}" style="flex: 1; margin-bottom: 1rem; resize: none; font-family: monospace;" disabled></textarea>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button id="btn-delete-product" class="btn" style="background: rgba(255, 68, 68, 0.1); color: #ff4444; display: none;">Delete Product</button>
+                            <button id="btn-save-product" class="btn" style="display: none;">Save to Library</button>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <button id="btn-validate-json" class="btn btn-primary" disabled>Validate All Products</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Validator Tab -->
+        <section id="tab-validator" class="tab-pane">
+            <div class="tab-header">
+                <h2>Validation Issues</h2>
+                <p>Review errors, warnings, and auto-corrections.</p>
+            </div>
+            <div id="validator-content">
+                <!-- Populated by validator.js -->
+            </div>
+        </section>
+
+        <!-- 6. Preview Tab -->
+        <section id="tab-preview" class="tab-pane">
+            <div class="tab-header">
+                <h2>Data Preview</h2>
+                <p>Review and edit the data before final export.</p>
+            </div>
+            <div class="glass-panel" style="padding: 1rem;">
+                <div class="table-container" style="max-height: 600px;">
+                    <table id="preview-table">
+                        <!-- Populated by preview.js -->
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Export Tab -->
+        <section id="tab-export" class="tab-pane">
+            <div class="tab-header">
+                <h2>Export Excel</h2>
+                <p>Download the final populated template.</p>
+            </div>
+            <div class="glass-panel" style="padding: 2rem; text-align: center;">
+                <button id="btn-download-excel" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 2rem;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    Download Output.xlsx
+                </button>
+            </div>
+        </section>
+
+        <!-- 8. Report Tab -->
+        <section id="tab-report" class="tab-pane">
+            <div class="tab-header">
+                <h2>Validation Report</h2>
+                <p>View the full HTML validation report.</p>
+            </div>
+            <div class="glass-panel" style="padding: 0;">
+                <iframe id="report-frame" style="width: 100%; height: 600px; border: none; border-radius: var(--border-radius-lg); background: white;"></iframe>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Missing SKU Modal -->
+<div id="modal-missing-sku" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div class="glass-panel" style="width: 100%; max-width: 500px; padding: 2rem;">
+        <h3 style="margin-top: 0; color: var(--status-warning); display: flex; align-items: center; gap: 0.5rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Missing SKUs Detected
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">The following SKUs were not found in the uploaded Excel template:</p>
+        <div id="missing-sku-list" style="max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: var(--border-radius-md); font-family: monospace; color: var(--text-primary); margin-bottom: 1.5rem; word-break: break-all;">
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">Would you like to skip generating these items and download the rest, or go to the Data Preview tab to edit the mistakes?</p>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button id="btn-modal-cancel" class="btn">Cancel</button>
+            <button id="btn-modal-preview" class="btn btn-primary" style="background: var(--accent-secondary);">Go to Data Preview</button>
+            <button id="btn-modal-skip" class="btn btn-primary" style="background: var(--status-warning); color: #000;">Skip Missing & Download</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product Library Modal -->
+<div id="modal-library" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div class="glass-panel" style="width: 100%; max-width: 600px; padding: 2rem; display: flex; flex-direction: column; max-height: 80vh;">
+        <h3 style="margin-top: 0; color: var(--text-primary); margin-bottom: 1rem;">Product Library</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Select a stored product to load it into the current session.</p>
+        <div id="library-list" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <!-- Populated by JS -->
+        </div>
+        <div style="display: flex; justify-content: flex-end;">
+            <button id="btn-library-close" class="btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Conflict Modal -->
+<div id="modal-conflict" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); z-index: 1001; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div class="glass-panel" style="width: 100%; max-width: 400px; padding: 2rem;">
+        <h3 style="margin-top: 0; color: var(--status-warning);">Overwrite Existing Product?</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;" id="conflict-message">A product with this SKU already exists.</p>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button id="btn-conflict-cancel" class="btn">Cancel</button>
+            <button id="btn-conflict-overwrite" class="btn btn-primary" style="background: var(--status-warning); color: #000;">Overwrite</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<!-- Scripts -->
+<script src="js/utils.js"></script>
+<script src="js/api.js"></script>
+<script src="js/upload.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/prompt.js"></script>
+<script src="js/json-input.js"></script>
+<script src="js/validator.js"></script>
+<script src="js/preview.js"></script>
+<script src="js/export.js"></script>
+<script src="js/report.js"></script>
+<script src="js/history.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+/* 
+ * ExcelPlorer — Main Stylesheet
+ * 
+ * Defines CSS variables, resets, and typography.
+ * Follows a deep dark theme with vibrant accents.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    /* Color Palette */
+    --bg-dark: #0F172A; /* Slate 900 */
+    --bg-surface: #1E293B; /* Slate 800 */
+    --bg-glass: rgba(30, 41, 59, 0.7);
+    --bg-glass-hover: rgba(30, 41, 59, 0.9);
+    
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-highlight: rgba(255, 255, 255, 0.2);
+    
+    --text-primary: #F8FAFC; /* Slate 50 */
+    --text-secondary: #94A3B8; /* Slate 400 */
+    --text-muted: #64748B; /* Slate 500 */
+    
+    /* Accents */
+    --accent-primary: #38BDF8; /* Light Blue 400 */
+    --accent-primary-hover: #0EA5E9; /* Light Blue 500 */
+    
+    /* Status Colors */
+    --status-success: #10B981; /* Emerald 500 */
+    --status-success-bg: rgba(16, 185, 129, 0.1);
+    --status-warning: #F59E0B; /* Amber 500 */
+    --status-warning-bg: rgba(245, 158, 11, 0.1);
+    --status-error: #EF4444; /* Red 500 */
+    --status-error-bg: rgba(239, 68, 68, 0.1);
+    --status-info: #3B82F6; /* Blue 500 */
+    --status-info-bg: rgba(59, 130, 246, 0.1);
+    
+    /* Typography */
+    --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    /* Layout */
+    --sidebar-width: 280px;
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --transition-slow: 400ms ease;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-ui);
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--accent-primary-hover);
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font-family: var(--font-ui);
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
+}
+
+input, textarea, select {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-surface);
+    border-radius: var(--border-radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
