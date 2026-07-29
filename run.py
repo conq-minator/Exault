@@ -38,12 +38,15 @@ def main() -> None:
     app = create_app()
 
     # Auto-open browser in a background thread
-    if config.AUTO_OPEN_BROWSER and not app.debug:
-        threading.Thread(
-            target=open_browser,
-            args=(config.HOST, config.PORT),
-            daemon=True
-        ).start()
+    if config.AUTO_OPEN_BROWSER:
+        import os
+        # If in debug mode, only open browser in the reloader child process to avoid duplicate tabs
+        if not app.debug or os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+            threading.Thread(
+                target=open_browser,
+                args=(config.HOST, config.PORT),
+                daemon=True
+            ).start()
 
     # Print startup banner
     print("\n" + "=" * 60)
