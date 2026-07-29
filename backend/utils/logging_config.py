@@ -1,5 +1,5 @@
 """
-ExcelPlorer — Logging Configuration
+Exault — Logging Configuration
 
 Sets up structured logging with console and file handlers.
 Each module gets its own logger via logging.getLogger(__name__).
@@ -18,14 +18,14 @@ def setup_logging() -> logging.Logger:
 
     Sets up:
         - Console handler (stdout) with colored-style formatting
-        - File handler (data/excelplorer.log) for persistence
+        - File handler (data/exault.log) for persistence
         - Root logger level from config
 
     Returns:
         The root application logger.
     """
     # Get the root logger for the application
-    root_logger = logging.getLogger("excelplorer")
+    root_logger = logging.getLogger("exault")
     root_logger.setLevel(getattr(logging, config.LOG_LEVEL.upper(), logging.DEBUG))
 
     # Prevent duplicate handlers on repeated calls

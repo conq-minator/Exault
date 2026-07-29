@@ -1,5 +1,5 @@
 """
-ExcelPlorer — Application Entry Point
+Exault — Application Entry Point
 
 Starts the Flask server and opens the browser.
 
@@ -26,13 +26,13 @@ def open_browser(host: str, port: int) -> None:
 
 
 def main() -> None:
-    """Initialize and start the ExcelPlorer application."""
+    """Initialize and start the Exault application."""
     # Ensure required directories exist
     config.ensure_directories()
 
     # Set up logging
     logger = setup_logging()
-    logger.info("Starting ExcelPlorer v1.0.0")
+    logger.info("Starting Exault v1.0.0")
 
     # Create Flask application
     app = create_app()
@@ -50,7 +50,7 @@ def main() -> None:
 
     # Print startup banner
     print("\n" + "=" * 60)
-    print("  ExcelPlorer — AI Spreadsheet Mapping Framework")
+    print("  Exault — AI Spreadsheet Mapping Framework")
     print("=" * 60)
     print(f"  Server:  http://{config.HOST}:{config.PORT}")
     print(f"  Debug:   {config.DEBUG}")

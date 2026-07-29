@@ -30,7 +30,7 @@ def create_app() -> Flask:
     
     # ─── Configuration ──────────────────────────────────────────────────
     app.config["MAX_CONTENT_LENGTH"] = config.MAX_UPLOAD_SIZE
-    app.config["SECRET_KEY"] = "excelplorer-local-dev-key"
+    app.config["SECRET_KEY"] = "exault-local-dev-key"
 
     # ─── CORS ────────────────────────────────────────────────────────────
     CORS(app)

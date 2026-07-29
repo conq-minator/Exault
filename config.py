@@ -1,5 +1,5 @@
 """
-ExcelPlorer — Application Configuration
+Exault — Application Configuration
 
 All application-wide settings are defined here.
 No hardcoded paths — all paths are relative to the project root.
@@ -27,10 +27,10 @@ EXPORTS_DIR: Path = DATA_DIR / "exports"
 PRODUCTS_DIR: Path = DATA_DIR / "products"
 
 # SQLite database path
-DATABASE_PATH: Path = DATA_DIR / "excelplorer.db"
+DATABASE_PATH: Path = DATA_DIR / "exault.db"
 
 # Log file path
-LOG_FILE: Path = DATA_DIR / "excelplorer.log"
+LOG_FILE: Path = DATA_DIR / "exault.log"
 
 # Frontend directory (served as static files)
 FRONTEND_DIR: Path = PROJECT_ROOT / "frontend"
@@ -40,7 +40,7 @@ FRONTEND_DIR: Path = PROJECT_ROOT / "frontend"
 
 # Flask server host and port
 HOST: str = "127.0.0.1"
-PORT: int = 5000
+PORT: int = 5001
 DEBUG: bool = True
 
 # Auto-open browser on startup
@@ -59,7 +59,7 @@ ALLOWED_EXTENSIONS: set[str] = {".xlsx", ".xls"}
 # ─── Logging Settings ───────────────────────────────────────────────────────
 
 # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
-LOG_LEVEL: str = os.environ.get("EXCELPLORER_LOG_LEVEL", "DEBUG")
+LOG_LEVEL: str = os.environ.get("EXAULT_LOG_LEVEL", "DEBUG")
 
 # Log format
 LOG_FORMAT: str = "[%(asctime)s] %(levelname)-8s %(name)s: %(message)s"

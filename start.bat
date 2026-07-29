@@ -1,8 +1,8 @@
 @echo off
-title ExcelPlorer Server
+title Exault Server
 cd /d "%~dp0"
 
-echo Starting ExcelPlorer Server...
+echo Starting Exault Server...
 
 set "PYTHON_EXE=%~dp0venv\Scripts\python.exe"
 set "RUN_SCRIPT=%~dp0run.py"
