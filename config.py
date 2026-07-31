@@ -1,5 +1,5 @@
 """
-Exault — Application Configuration
+ExcelPlorer — Application Configuration
 
 All application-wide settings are defined here.
 No hardcoded paths — all paths are relative to the project root.
@@ -26,11 +26,14 @@ EXPORTS_DIR: Path = DATA_DIR / "exports"
 # Product library storage
 PRODUCTS_DIR: Path = DATA_DIR / "products"
 
+# Notes library storage
+NOTES_DIR: Path = DATA_DIR / "notes"
+
 # SQLite database path
-DATABASE_PATH: Path = DATA_DIR / "exault.db"
+DATABASE_PATH: Path = DATA_DIR / "excelplorer.db"
 
 # Log file path
-LOG_FILE: Path = DATA_DIR / "exault.log"
+LOG_FILE: Path = DATA_DIR / "excelplorer.log"
 
 # Frontend directory (served as static files)
 FRONTEND_DIR: Path = PROJECT_ROOT / "frontend"
@@ -40,7 +43,7 @@ FRONTEND_DIR: Path = PROJECT_ROOT / "frontend"
 
 # Flask server host and port
 HOST: str = "127.0.0.1"
-PORT: int = 5001
+PORT: int = 5000
 DEBUG: bool = True
 
 # Auto-open browser on startup
@@ -59,7 +62,7 @@ ALLOWED_EXTENSIONS: set[str] = {".xlsx", ".xls"}
 # ─── Logging Settings ───────────────────────────────────────────────────────
 
 # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
-LOG_LEVEL: str = os.environ.get("EXAULT_LOG_LEVEL", "DEBUG")
+LOG_LEVEL: str = os.environ.get("EXCELPLORER_LOG_LEVEL", "DEBUG")
 
 # Log format
 LOG_FORMAT: str = "[%(asctime)s] %(levelname)-8s %(name)s: %(message)s"
@@ -100,6 +103,5 @@ MAX_PRODUCTS_PER_BATCH: int = 500
 
 def ensure_directories() -> None:
     """Create all required directories if they don't exist."""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
-    EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    for _d in [DATA_DIR, SESSIONS_DIR, EXPORTS_DIR, PRODUCTS_DIR, NOTES_DIR]:
+        _d.mkdir(parents=True, exist_ok=True)

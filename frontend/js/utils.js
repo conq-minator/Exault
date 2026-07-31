@@ -14,9 +14,9 @@ const Utils = {
 
         const toast = document.createElement('div');
         toast.className = `toast ${type}`;
-        
+
         let icon = '';
-        switch(type) {
+        switch (type) {
             case 'success': icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'; break;
             case 'error': icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'; break;
             case 'warning': icon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'; break;
@@ -66,15 +66,78 @@ const Utils = {
             console.error('Copy failed:', err);
         }
     },
-    
-    /**
-     * Create an HTML element with classes and innerHTML.
-     */
+
     createElement: (tag, className = '', innerHTML = '') => {
         const el = document.createElement(tag);
         if (className) el.className = className;
         if (innerHTML) el.innerHTML = innerHTML;
         return el;
+    },
+
+    /**
+     * Show a custom HTML prompt modal
+     */
+    showPrompt: (title, defaultValue = '') => {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('modal-prompt-name');
+            const titleEl = document.getElementById('modal-prompt-title');
+            const inputEl = document.getElementById('modal-prompt-input');
+            const btnCancel = document.getElementById('btn-prompt-cancel');
+            const btnSubmit = document.getElementById('btn-prompt-submit');
+
+            titleEl.textContent = title;
+            inputEl.value = defaultValue;
+            modal.style.display = 'flex';
+            inputEl.focus();
+            inputEl.select();
+
+            const cleanup = () => {
+                modal.style.display = 'none';
+                btnCancel.removeEventListener('click', onCancel);
+                btnSubmit.removeEventListener('click', onSubmit);
+                inputEl.removeEventListener('keydown', onKey);
+            };
+
+            const onCancel = () => { cleanup(); resolve(null); };
+            const onSubmit = () => { cleanup(); resolve(inputEl.value.trim() || null); };
+            const onKey = (e) => {
+                if (e.key === 'Enter') onSubmit();
+                if (e.key === 'Escape') onCancel();
+            };
+
+            btnCancel.addEventListener('click', onCancel);
+            btnSubmit.addEventListener('click', onSubmit);
+            inputEl.addEventListener('keydown', onKey);
+        });
+    },
+
+    /**
+     * Show a custom HTML confirm modal
+     */
+    showConfirm: (title, message) => {
+        return new Promise((resolve) => {
+            const modal = document.getElementById('modal-confirm');
+            const titleEl = document.getElementById('modal-confirm-title');
+            const msgEl = document.getElementById('modal-confirm-message');
+            const btnCancel = document.getElementById('btn-confirm-cancel');
+            const btnSubmit = document.getElementById('btn-confirm-submit');
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            modal.style.display = 'flex';
+
+            const cleanup = () => {
+                modal.style.display = 'none';
+                btnCancel.removeEventListener('click', onCancel);
+                btnSubmit.removeEventListener('click', onSubmit);
+            };
+
+            const onCancel = () => { cleanup(); resolve(false); };
+            const onSubmit = () => { cleanup(); resolve(true); };
+
+            btnCancel.addEventListener('click', onCancel);
+            btnSubmit.addEventListener('click', onSubmit);
+        });
     }
 };
 

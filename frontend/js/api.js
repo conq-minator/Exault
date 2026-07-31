@@ -2,7 +2,7 @@
  * ExcelPlorer — API Client
  */
 
-const API_BASE = 'http://127.0.0.1:5001/api';
+const API_BASE = 'http://127.0.0.1:5000/api';
 
 const API = {
     /**
@@ -67,21 +67,21 @@ const API = {
             body: JSON.stringify(rowData)
         });
     },
-    
+
     getExportUrl(sessionId) {
         return `${API_BASE}/export/${sessionId}`;
     },
-    
+
     async downloadExport(sessionId, skipMissing = false) {
         const url = `${API_BASE}/export/${sessionId}${skipMissing ? '?skip_missing=true' : ''}`;
         const response = await fetch(url);
         if (!response.ok) {
             let errData = {};
-            try { errData = await response.json(); } catch(e) {}
+            try { errData = await response.json(); } catch (e) { }
             // We throw an object so export.js can check the status code
             throw { status: response.status, data: errData };
         }
-        
+
         // Extract filename from Content-Disposition if present
         let filename = `output.xlsx`;
         const disposition = response.headers.get('Content-Disposition');
@@ -92,35 +92,35 @@ const API = {
                 filename = matches[1].replace(/['"]/g, '');
             }
         }
-        
+
         const blob = await response.blob();
         return { blob, filename };
     },
-    
+
     getReportUrl(sessionId, format = 'html') {
         return `${API_BASE}/report/${sessionId}?format=${format}`;
     },
-    
+
     async getSessions() {
         return this._fetch('/sessions');
     },
-    
+
     // --- Product Library API --- //
-    
+
     async getProducts() {
         return this._fetch('/products');
     },
-    
+
     async getProduct(sku) {
         return this._fetch(`/products/${encodeURIComponent(sku)}`);
     },
-    
+
     async deleteProduct(sku) {
         return this._fetch(`/products/${encodeURIComponent(sku)}`, {
             method: 'DELETE'
         });
     },
-    
+
     async saveProduct(sku, data, overwrite = false) {
         // Use full fetch for status check since 409 means conflict
         const url = `${API_BASE}/products/${encodeURIComponent(sku)}${overwrite ? '?overwrite=true' : ''}`;
@@ -129,13 +129,44 @@ const API = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-        
+
         if (!response.ok) {
             let errData = {};
-            try { errData = await response.json(); } catch(e) {}
+            try { errData = await response.json(); } catch (e) { }
             throw { status: response.status, data: errData };
         }
         return await response.json();
+    },
+
+    // --- Notes API ---
+    async getNotes() {
+        return this._fetch(`/notes`);
+    },
+
+    async getNote(name) {
+        return this._fetch(`/notes/${encodeURIComponent(name)}`);
+    },
+
+    async saveNote(name, content, overwrite = false) {
+        const url = `${API_BASE}/notes/${encodeURIComponent(name)}${overwrite ? '?overwrite=true' : ''}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content })
+        });
+
+        if (!response.ok) {
+            let errData = {};
+            try { errData = await response.json(); } catch (e) { }
+            throw { status: response.status, data: errData };
+        }
+        return await response.json();
+    },
+
+    async deleteNote(name) {
+        return this._fetch(`/notes/${encodeURIComponent(name)}`, {
+            method: 'DELETE'
+        });
     }
 };
 

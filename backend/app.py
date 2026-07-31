@@ -30,7 +30,7 @@ def create_app() -> Flask:
     
     # ─── Configuration ──────────────────────────────────────────────────
     app.config["MAX_CONTENT_LENGTH"] = config.MAX_UPLOAD_SIZE
-    app.config["SECRET_KEY"] = "exault-local-dev-key"
+    app.config["SECRET_KEY"] = "excelplorer-local-dev-key"
 
     # ─── CORS ────────────────────────────────────────────────────────────
     CORS(app)
@@ -77,8 +77,8 @@ def _register_blueprints(app: Flask) -> None:
     from backend.api.preview import preview_bp
     from backend.api.export import export_bp
     from backend.api.report import report_bp
-    from backend.api.session import session_bp
     from backend.api.products import products_bp
+    from backend.api.notes import notes_bp
 
     blueprints = [
         upload_bp,
@@ -88,8 +88,8 @@ def _register_blueprints(app: Flask) -> None:
         preview_bp,
         export_bp,
         report_bp,
-        session_bp,
         products_bp,
+        notes_bp,
     ]
 
     for bp in blueprints:
