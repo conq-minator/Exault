@@ -32,3 +32,6 @@ Thumbs.db
 # Excel files
 excels/
 *.xlsx
+*.xls
+*.xlsm
+*.xlsb
