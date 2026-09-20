@@ -1,8 +1,8 @@
-# ExcelPlorer
+# Exault
 
 **AI Spreadsheet Mapping Framework** — A desktop-first web application that converts AI-generated product information into marketplace bulk-upload Excel files.
 
-ExcelPlorer bridges the gap between AI vision models (ChatGPT, Gemini, Claude) and marketplace seller dashboards. Upload a marketplace Excel template, get an optimized prompt, paste it into any AI with your product images, paste the AI's JSON response back, and receive a perfectly formatted Excel file ready for bulk upload.
+Exault bridges the gap between AI vision models (ChatGPT, Gemini, Claude) and marketplace seller dashboards. Upload a marketplace Excel template, get an optimized prompt, paste it into any AI with your product images, paste the AI's JSON response back, and receive a perfectly formatted Excel file ready for bulk upload.
 
 ---
 
@@ -56,7 +56,7 @@ ExcelPlorer bridges the gap between AI vision models (ChatGPT, Gemini, Claude) a
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd excelplorer
+cd Exault
 
 # Create a virtual environment (recommended)
 python -m venv venv
@@ -87,7 +87,7 @@ The application will start a local server and automatically open your browser to
 3. **Copy Prompts** — Copy the auto-generated **Rules Prompt** and **Data Prompt** from the AI Prompt tab
 4. **Paste into AI** — Open your preferred AI, upload product images, paste the Rules Prompt, then the Data Prompt
 5. **Copy AI Response** — The AI returns structured JSON — copy it
-6. **Paste JSON** — Paste the JSON into ExcelPlorer's JSON Input tab (products are auto-saved to your library)
+6. **Paste JSON** — Paste the JSON into Exault's JSON Input tab (products are auto-saved to your library)
 7. **Review Validation** — Fix any errors or warnings; auto-corrections are applied automatically
 8. **Preview** — Review the data table; edit cells manually if needed
 9. **Export** — Download the completed Excel file, validation report, and session logs
@@ -105,7 +105,7 @@ Edit `config.py` to customize:
 ## Folder Structure
 
 ```
-excelplorer/
+Exault/
 ├── README.md                          # This file
 ├── PRD.md                             # Product Requirements Document
 ├── architecture.md                    # Architecture documentation
