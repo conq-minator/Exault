@@ -203,20 +203,6 @@ excelplorer/
 
 ---
 
-## Roadmap
-
-- [x] Phase 1 — Project setup, folder structure, documentation
-- [ ] Phase 2 — Excel Analyzer
-- [ ] Phase 3 — Prompt Generator
-- [ ] Phase 4 — JSON Import & Parsing
-- [ ] Phase 5 — Validation Engine
-- [ ] Phase 6 — Excel Writer
-- [ ] Phase 7 — Reporting System
-- [ ] Phase 8 — Plugin Framework
-- [ ] Phase 9 — UI Polish & Session History
-- [ ] Phase 10 — Testing & Packaging
-
----
 
 ## Contributing
 
